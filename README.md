@@ -309,6 +309,53 @@ report the recorded execution devices. Comparing a CUDA neural model against a
 CPU SciPy kernel is a practical comparison, but not a controlled same-device
 speedup.
 
+## Nonlinear term diagnostics
+
+To support the linearization used in the derivation, the repository includes
+`src/run_nonlinear_term_diagnostics.py`. This script measures the relative
+magnitude and directional alignment of the linear and cubic terms in the exact
+Taylor-GAE gradient,
+
+\[
+\nabla_W \mathcal{L}
+=
+\frac{4}{n^2}
+\left[
+S Z (Z^T Z) - S M Z
+\right].
+\]
+
+In particular, it defines
+
+\[
+L = SMZ,
+\qquad
+C = SZ(Z^TZ),
+\]
+
+and records at regular training checkpoints
+
+\[
+\frac{\|C\|_F}{\|L\|_F}
+\qquad\text{and}\qquad
+\cos(L,C)
+=
+\frac{\langle L,C\rangle_F}
+{\|L\|_F\|C\|_F}.
+\]
+
+The norm ratio measures the magnitude of the nonlinear term relative to the
+linear term, while the cosine similarity measures their directional alignment.
+The purpose of this experiment is not to claim that the cubic term is small,
+but to test whether it becomes approximately aligned with the linear component
+during the finite-time training regime used for link prediction.
+
+From the repository root, reproduce the default diagnostic with:
+
+```bash
+python src/run_nonlinear_term_diagnostics.py
+```
+
 ## Offline smoke test
 
 ```bash

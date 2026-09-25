@@ -1,0 +1,15 @@
+{
+  "datasets": [
+    "cora"
+  ],
+  "folds": 10,
+  "fold_start": 0,
+  "base_seed": 10000,
+  "data_root": "data/planetoid",
+  "embedding_dim": 16,
+  "epochs": 600,
+  "lr": 600.0,
+  "eval_every": 10,
+  "useful_fraction": 0.99,
+  "verbose": true
+}
